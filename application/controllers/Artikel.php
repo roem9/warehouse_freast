@@ -7,7 +7,7 @@ class Artikel extends MY_Controller {
     public function index(){
         $data['title'] = 'List Artikel';
         $data['menu'] = "Artikel";
-        $data['dropdown'] = "listArtikel"; 
+        $data['dropdown'] = "listArtikel";
         $data['modal'] = ["modal_artikel", "modal_laporan"];
         $data['js'] = [
             "ajax.js",
