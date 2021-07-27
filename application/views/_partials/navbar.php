@@ -88,6 +88,19 @@
                         </span>
                     </a>
                 </li>
+
+                <li class="nav-item" id="User">
+                    <a class="nav-link" href="<?= base_url()?>user" role="button" aria-expanded="false" >
+                        <span class="nav-link-icon d-md-none d-lg-inline-block">
+                            <svg width="24" height="24" class="me-3">
+                                <use xlink:href="<?= base_url()?>assets/tabler-icons-1.39.1/tabler-sprite.svg#tabler-users" />
+                            </svg> 
+                        </span>
+                        <span class="nav-link-title">
+                            User
+                        </span>
+                    </a>
+                </li>
             <?php elseif($this->session->userdata("level") == "Kasir") :?>
                 <li class="nav-item dropdown" id="Penjualan">
                     <a class="nav-link dropdown-toggle" href="#navbar-base" data-bs-toggle="dropdown" role="button" aria-expanded="false" >
@@ -106,9 +119,6 @@
                         </a>
                         <a class="dropdown-item" id="listPenjualan" href="<?= base_url()?>penjualan/list" >
                             List Penjualan
-                        </a>
-                        <a class="dropdown-item" id="arsipPenjualan" href="<?= base_url()?>penjualan/arsip" >
-                            Arsip Penjualan
                         </a>
                     </div>
                 </li>
@@ -130,9 +140,6 @@
                         </a>
                         <a class="dropdown-item" id="listPenyetokan" href="<?= base_url()?>penyetokan/list" >
                             List Penyetokan
-                        </a>
-                        <a class="dropdown-item" id="arsipPenyetokan" href="<?= base_url()?>penyetokan/arsip" >
-                            Arsip Penyetokan
                         </a>
                     </div>
                 </li>

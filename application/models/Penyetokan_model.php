@@ -16,6 +16,8 @@ class Penyetokan_model extends MY_Model {
             $data[$key] = $this->input->post($key);
         }
 
+        $data['id_admin'] = $this->session->userdata('id_admin');
+
         $id_penyetokan = $this->add_data("penyetokan", $data);
 
         foreach ($id_artikel as $i => $id_artikel) {
@@ -56,13 +58,15 @@ class Penyetokan_model extends MY_Model {
     }
 
     public function load_penyetokan($status){
+        $level = $this->session->userdata("level");
+
         $this->datatables->select('id_penyetokan, tgl_penyetokan, keterangan');
         $this->datatables->from('penyetokan');
 
         if($status == "arsip") $this->datatables->where("hapus", "1");
         else $this->datatables->where("hapus", "0");
 
-        $this->datatables->add_column("tgl", "$1", "tgl_indo(tgl_penyetokan, TRUE)");
+        $this->datatables->add_column("tgl", "$1", "tgl_waktu(tgl_penyetokan, TRUE)");
         $this->datatables->add_column("stok", "$1", "item_penyetokan(id_penyetokan)");
 
         if($status == "arsip"){
@@ -84,23 +88,39 @@ class Penyetokan_model extends MY_Model {
                         </div>
                         </span>', 'id_penyetokan, md5(id_penyetokan)');
         } else {
-            $this->datatables->add_column('menu','
-                        <span class="dropdown">
-                        <button class="btn dropdown-toggle align-text-top" data-bs-boundary="viewport" data-bs-toggle="dropdown">
-                            '.tablerIcon("menu-2", "me-1").'
-                            Menu
-                        </button>
-                        <div class="dropdown-menu dropdown-menu-end">
-                            <a class="dropdown-item" target="_blank" href="'.base_url().'penyetokan/detail/$2" data-id="$1">
-                                '.tablerIcon("info-circle", "me-1").'
-                                Detail Penyetokan
-                            </a>
-                            <a class="dropdown-item arsipPenyetokan" href="javascript:void(0)" data-id="$1">
-                                '.tablerIcon("archive", "me-1").'
-                                Arsipkan
-                            </a>
-                        </div>
-                        </span>', 'id_penyetokan, md5(id_penyetokan)');
+            if($level == "Super Admin"){
+                $this->datatables->add_column('menu','
+                            <span class="dropdown">
+                            <button class="btn dropdown-toggle align-text-top" data-bs-boundary="viewport" data-bs-toggle="dropdown">
+                                '.tablerIcon("menu-2", "me-1").'
+                                Menu
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-end">
+                                <a class="dropdown-item" target="_blank" href="'.base_url().'penyetokan/detail/$2" data-id="$1">
+                                    '.tablerIcon("info-circle", "me-1").'
+                                    Detail Penyetokan
+                                </a>
+                                <a class="dropdown-item arsipPenyetokan" href="javascript:void(0)" data-id="$1">
+                                    '.tablerIcon("archive", "me-1").'
+                                    Arsipkan
+                                </a>
+                            </div>
+                            </span>', 'id_penyetokan, md5(id_penyetokan)');
+            } else {
+                $this->datatables->add_column('menu','
+                            <span class="dropdown">
+                            <button class="btn dropdown-toggle align-text-top" data-bs-boundary="viewport" data-bs-toggle="dropdown">
+                                '.tablerIcon("menu-2", "me-1").'
+                                Menu
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-end">
+                                <a class="dropdown-item" target="_blank" href="'.base_url().'penyetokan/detail/$2" data-id="$1">
+                                    '.tablerIcon("info-circle", "me-1").'
+                                    Detail Penyetokan
+                                </a>
+                            </div>
+                            </span>', 'id_penyetokan, md5(id_penyetokan)');
+            }
         }
 
         return $this->datatables->generate();

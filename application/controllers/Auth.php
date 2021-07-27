@@ -42,7 +42,7 @@ class Auth extends CI_Controller {
         $username = $this->input->post('username');
         $password = $this->input->post("password", TRUE);
         $remember = $this->input->post('remember');
-        $row = $this->Main_model->get_one("admin", ["username" => $username, "password" => MD5($password)]);
+        $row = $this->Main_model->get_one("admin", ["username" => $username, "password" => MD5($password), "hapus" => 0]);
 
         if ($row) {
             // login berhasil

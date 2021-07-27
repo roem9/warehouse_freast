@@ -56,10 +56,10 @@
                         </div>
 
                         
-                        <div class="form-floating mb-3">
-                            <input type="date" name="tgl_penyetokan" class="form form-control form-control-sm required">
+                        <!-- <div class="form-floating mb-3">
+                            <input type="datetime-local" name="tgl_penyetokan" class="form form-control form-control-sm required">
                             <label class="col-form-label">Tgl. Penyetokan</label>
-                        </div>
+                        </div> -->
                         <div class="form-floating mb-3">
                             <textarea name="keterangan" class="form form-control form-control-sm required" data-bs-toggle="autosize"></textarea>
                             <label class="col-form-label">Keterangan</label>

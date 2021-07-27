@@ -5,51 +5,69 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Artikel extends MY_Controller {
 
     public function index(){
-        $data['title'] = 'List Artikel';
-        $data['menu'] = "Artikel";
-        $data['dropdown'] = "listArtikel"; 
-        $data['modal'] = ["modal_artikel", "modal_laporan"];
-        $data['js'] = [
-            "ajax.js",
-            "function.js",
-            "helper.js",
-            "load_data/artikel_reload.js",
-            "modules/artikel.js",
-        ];
-
-        $this->load->view("pages/artikel/list", $data);
+        if($this->session->userdata("level") == "Super Admin") {
+            $data['title'] = 'List Artikel';
+            $data['menu'] = "Artikel";
+            $data['dropdown'] = "listArtikel"; 
+            $data['modal'] = ["modal_artikel", "modal_laporan"];
+            $data['js'] = [
+                "ajax.js",
+                "function.js",
+                "helper.js",
+                "load_data/artikel_reload.js",
+                "modules/artikel.js",
+            ];
+    
+            $this->load->view("pages/artikel/list", $data);
+        } else if($this->session->userdata("level") == "Kasir") {
+            redirect(base_url("penjualan"));
+        } else if($this->session->userdata("level") == "Gudang") {
+            redirect(base_url("penyetokan"));
+        }
     }
 
     public function arsip(){
-        $data['title'] = 'List Arsip Artikel';
-        $data['menu'] = "Artikel";
-        $data['dropdown'] = "arsipArtikel";
-        $data['modal'] = ["modal_artikel", "modal_laporan"];
-        $data['js'] = [
-            "ajax.js",
-            "function.js",
-            "helper.js",
-            "load_data/artikel_reload.js",
-            "modules/artikel.js",
-        ];
+        if($this->session->userdata("level") == "Super Admin") {
+            $data['title'] = 'List Arsip Artikel';
+            $data['menu'] = "Artikel";
+            $data['dropdown'] = "arsipArtikel";
+            $data['modal'] = ["modal_artikel", "modal_laporan"];
+            $data['js'] = [
+                "ajax.js",
+                "function.js",
+                "helper.js",
+                "load_data/artikel_reload.js",
+                "modules/artikel.js",
+            ];
 
-        $this->load->view("pages/artikel/list", $data);
+            $this->load->view("pages/artikel/list", $data);
+        } else if($this->session->userdata("level") == "Kasir") {
+            redirect(base_url("penjualan"));
+        } else if($this->session->userdata("level") == "Gudang") {
+            redirect(base_url("penyetokan"));
+        }
     }
 
     public function produk(){
-        $data['title'] = 'List Produk';
-        $data['menu'] = "Artikel";
-        $data['dropdown'] = "produkArtikel";
-        $data['modal'] = ["modal_artikel", "modal_laporan"];
-        $data['js'] = [
-            "ajax.js",
-            "function.js",
-            "helper.js",
-            "load_data/produk_reload.js",
-            "modules/artikel.js",
-        ];
+        if($this->session->userdata("level") == "Super Admin") {
+            $data['title'] = 'List Produk';
+            $data['menu'] = "Artikel";
+            $data['dropdown'] = "produkArtikel";
+            $data['modal'] = ["modal_artikel", "modal_laporan"];
+            $data['js'] = [
+                "ajax.js",
+                "function.js",
+                "helper.js",
+                "load_data/produk_reload.js",
+                "modules/artikel.js",
+            ];
 
-        $this->load->view("pages/artikel/produk", $data);
+            $this->load->view("pages/artikel/produk", $data);
+        } else if($this->session->userdata("level") == "Kasir") {
+            redirect(base_url("penjualan"));
+        } else if($this->session->userdata("level") == "Gudang") {
+            redirect(base_url("penyetokan"));
+        }
     }
 
     public function add_artikel(){

@@ -6,76 +6,104 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Penjualan extends MY_Controller {
 
     public function index(){
-        $data['title'] = 'Tambah Penjualan';
-        $data['menu'] = 'Penjualan';
-        $data['dropdown'] = 'tambahPenjualan';
+        $level = $this->session->userdata("level");
 
-        $data['modal'] = ["modal_laporan"];
+        if($level == "Super Admin" || $level == "Kasir") {
+            $data['title'] = 'Tambah Penjualan';
+            $data['menu'] = 'Penjualan';
+            $data['dropdown'] = 'tambahPenjualan';
 
-        $data['js'] = [
-            "ajax.js",
-            "function.js",
-            "helper.js",
-            "modules/penjualan.js",
-        ];
+            $data['modal'] = ["modal_laporan"];
 
-        $this->load->view("pages/penjualan/tambah", $data);
+            $data['js'] = [
+                "ajax.js",
+                "function.js",
+                "helper.js",
+                "modules/penjualan.js",
+            ];
+
+            $this->load->view("pages/penjualan/tambah", $data);
+        } else {
+            // jika level gudang arahkan ke penyetokan
+            redirect(base_url("penyetokan"));
+        }
     }
 
     public function list(){
-        $data['title'] = 'List Penjualan';
-        $data['menu'] = 'Penjualan';
-        $data['dropdown'] = 'listPenjualan';
+        $level = $this->session->userdata("level");
 
-        $data['modal'] = ["modal_laporan"];
+        if($level == "Super Admin" || $level == "Kasir") {
+            $data['title'] = 'List Penjualan';
+            $data['menu'] = 'Penjualan';
+            $data['dropdown'] = 'listPenjualan';
 
-        $data['js'] = [
-            "ajax.js",
-            "function.js",
-            "helper.js",
-            "load_data/penjualan_reload.js",
-            "modules/penjualan.js",
-        ];
+            $data['modal'] = ["modal_laporan"];
 
-        $this->load->view("pages/penjualan/list", $data);
+            $data['js'] = [
+                "ajax.js",
+                "function.js",
+                "helper.js",
+                "load_data/penjualan_reload.js",
+                "modules/penjualan.js",
+            ];
+
+            $this->load->view("pages/penjualan/list", $data);
+        } else {
+            // jika level gudang arahkan ke penyetokan
+            redirect(base_url("penyetokan"));
+        }
     }
 
     public function arsip(){
-        $data['title'] = 'List Arsip Penjualan';
-        $data['menu'] = 'Penjualan';
-        $data['dropdown'] = 'arsipPenjualan';
+        $level = $this->session->userdata("level");
 
-        $data['modal'] = ["modal_laporan"];
+        if($level == "Super Admin") {
+            $data['title'] = 'List Arsip Penjualan';
+            $data['menu'] = 'Penjualan';
+            $data['dropdown'] = 'arsipPenjualan';
 
-        $data['js'] = [
-            "ajax.js",
-            "function.js",
-            "helper.js",
-            "load_data/penjualan_reload.js",
-            "modules/penjualan.js",
-        ];
+            $data['modal'] = ["modal_laporan"];
 
-        $this->load->view("pages/penjualan/list", $data);
+            $data['js'] = [
+                "ajax.js",
+                "function.js",
+                "helper.js",
+                "load_data/penjualan_reload.js",
+                "modules/penjualan.js",
+            ];
+
+            $this->load->view("pages/penjualan/list", $data);
+        } else if($level == "Kasir") {
+            redirect(base_url("penjualan"));
+        } else if($level == "Gudang") {
+            redirect(base_url("penyetokan"));
+        }
     }
 
     public function detail($id_penjualan){
-        $data['title'] = 'Detail Penjualan';
-        $data['menu'] = 'Penjualan';
+        $level = $this->session->userdata("level");
 
-        $data['modal'] = ["modal_laporan"];
+        if($level == "Super Admin" || $level == "Kasir") {
+            $data['title'] = 'Detail Penjualan';
+            $data['menu'] = 'Penjualan';
 
-        $data['js'] = [
-            "ajax.js",
-            "function.js",
-            "helper.js",
-            "modules/penjualan.js",
-        ];
+            $data['modal'] = ["modal_laporan"];
 
-        $data['penjualan'] = $this->penjualan->get_one("penjualan", ["md5(id_penjualan)" => $id_penjualan]);
-        $data['detail_penjualan'] = $this->penjualan->get_all("detail_penjualan", ["md5(id_penjualan)" => $id_penjualan]);
+            $data['js'] = [
+                "ajax.js",
+                "function.js",
+                "helper.js",
+                "modules/penjualan.js",
+            ];
 
-        $this->load->view("pages/penjualan/detail", $data);
+            $data['penjualan'] = $this->penjualan->get_one("penjualan", ["md5(id_penjualan)" => $id_penjualan]);
+            $data['detail_penjualan'] = $this->penjualan->get_all("detail_penjualan", ["md5(id_penjualan)" => $id_penjualan]);
 
+            $this->load->view("pages/penjualan/detail", $data);
+        } else {
+            // jika level gudang arahkan ke penyetokan
+            redirect(base_url("penyetokan"));
+        }
     }
 
     public function add_penjualan(){

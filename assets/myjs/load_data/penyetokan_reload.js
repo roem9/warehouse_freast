@@ -32,7 +32,7 @@ var datatable = $('#dataTable').DataTable({
         }},
         {"data": "menu"},
     ],
-    order: [[0, 'asc']],
+    order: [[0, 'desc']],
     rowCallback: function(row, data, iDisplayIndex) {
         var info = this.fnPagingInfo();
         var page = info.iPage;

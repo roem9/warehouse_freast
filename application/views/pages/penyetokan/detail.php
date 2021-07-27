@@ -40,19 +40,33 @@
                                                     <input type="hidden" name="id_artikel" value="<?= $detail['id_artikel']?>">
                                                     <span class="urut"><?= $i?></span>
                                                 </td>
-                                                <td><a href="javascript:void(0)" class="hapusArtikel text-danger" data-id="<?= $i?>" data-nama="<?= $detail['nama_artikel'] . " " . $detail['ukuran']?>"><?= $detail['nama_artikel'] . " " . $detail['ukuran']?></a></td>
-                                                <td class="text-right"><input type="number" name="qty" class="form form-control form-control-md required" value="<?= $detail['qty']?>"></td>
+                                                <td>
+                                                    <?php if($this->session->userdata("level") == "Super Admin") :?>
+                                                        <a href="javascript:void(0)" class="hapusArtikel text-danger" data-id="<?= $i?>" data-nama="<?= $detail['nama_artikel'] . " " . $detail['ukuran']?>"><?= $detail['nama_artikel'] . " " . $detail['ukuran']?></a>
+                                                    <?php else :?>
+                                                        <?= $detail['nama_artikel'] . " " . $detail['ukuran']?>
+                                                    <?php endif;?>
+                                                </td>
+                                                <td class="text-right">
+                                                    <?php if($this->session->userdata("level") == "Super Admin") :?>
+                                                        <input type="number" name="qty" class="form form-control form-control-md required" value="<?= $detail['qty']?>">
+                                                    <?php else :?>
+                                                        <input type="number" name="qty" class="form form-control form-control-md required" disabled value="<?= $detail['qty']?>">
+                                                    <?php endif;?>
+                                                </td>
                                             </tr>
                                         <?php 
                                             $i++;
                                             endforeach;?>
                                     </tbody>
                                 </table>
-
-                                <div class="form-floating mt-3">
-                                    <input type="text" name="cari_artikel" class="form-control form-control-sm">
-                                    <label class="col-form-label">Input Artikel</label>
-                                </div>
+                                
+                                <?php if($this->session->userdata("level") == "Super Admin") :?>
+                                    <div class="form-floating mt-3">
+                                        <input type="text" name="cari_artikel" class="form-control form-control-sm">
+                                        <label class="col-form-label">Input Artikel</label>
+                                    </div>
+                                <?php endif;?>
 
                                 <?php $artikel = list_artikel();?>
                                 <ul class="list-group" id="listOfArtikel" style="display:none">
@@ -72,20 +86,22 @@
 
                         <input type="hidden" name="id_penyetokan" value="<?= $penyetokan['id_penyetokan']?>" class="form">
                         <div class="form-floating mb-3">
-                            <input type="date" name="tgl_penyetokan" class="form form-control form-control-sm required" value="<?= $penyetokan['tgl_penyetokan']?>">
+                            <input type="datetime-local" name="tgl_penyetokan" class="form form-control form-control-sm required" style="background-color: white" value="<?= date("Y-m-d\TH:i", strtotime($penyetokan['tgl_penyetokan']));?>" <?= ($this->session->userdata("level") == "Super Admin") ? "" : "readonly"?>>
                             <label class="col-form-label">Tgl. Penyetokan</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <textarea name="keterangan" class="form form-control form-control-sm required" data-bs-toggle="autosize"><?= $penyetokan['keterangan']?></textarea>
+                            <textarea name="keterangan" class="form form-control form-control-sm required" data-bs-toggle="autosize" style="background-color: white" <?= ($this->session->userdata("level") == "Super Admin") ? "" : "readonly"?>><?= $penyetokan['keterangan']?></textarea>
                             <label class="col-form-label">Keterangan</label>
                         </div>
-
-                        <div class="d-grid gap-2 mb-3">
-                            <a href="javascript:void(0)" class="btn btn-md btn-primary" id="btnEdit">
-                                <?= tablerIcon("device-floppy", "me-1")?>
-                                Simpan Perubahan
-                            </a>
-                        </div>
+                        
+                        <?php if($this->session->userdata("level") == "Super Admin") :?>
+                            <div class="d-grid gap-2 mb-3">
+                                <a href="javascript:void(0)" class="btn btn-md btn-primary" id="btnEdit">
+                                    <?= tablerIcon("device-floppy", "me-1")?>
+                                    Simpan Perubahan
+                                </a>
+                            </div>
+                        <?php endif;?>
                     </form>
                 </div>
             </div>

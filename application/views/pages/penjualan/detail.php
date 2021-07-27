@@ -39,18 +39,22 @@
                                             foreach ($detail_penjualan as $detail) :?>
                                                 <tr id="<?= $i?>">
                                                     <td>
-                                                        <a href="javascript:void(0)" class="hapusArtikel text-danger" data-id="<?= $i?>" data-nama="<?= $detail['nama_artikel'] . ' ' . $detail['ukuran']?>"><?= $detail['nama_artikel'] . ' ' . $detail['ukuran']?></a> <br>
+                                                        <?php if($this->session->userdata("level") == "Super Admin"):?>
+                                                            <a href="javascript:void(0)" class="hapusArtikel text-danger" data-id="<?= $i?>" data-nama="<?= $detail['nama_artikel'] . ' ' . $detail['ukuran']?>"><?= $detail['nama_artikel'] . ' ' . $detail['ukuran']?></a> <br>
+                                                        <?php else :?>
+                                                            <?= $detail['nama_artikel'] . ' ' . $detail['ukuran']?><br>
+                                                        <?php endif;?>
                                                         <small>
                                                             Harga : <?= rupiah($detail['harga'])?> <br>
                                                             Sub Total : <span id="sub_total-<?= $i?>"><?= rupiah($detail['sub_total'])?></span>
                                                         </small>
                                                     </td>
-                                                    <td class="text-right"><input type="number" name="qty" id="qty-<?= $i?>" class="form form-control form-control-md required number" value="<?= $detail['qty']?>" data-id="<?= $i?>" style="padding-left: 5px; padding-right: 5px"></td>
+                                                    <td class="text-right"><input type="number" name="qty" id="qty-<?= $i?>" class="form form-control form-control-md required number" value="<?= $detail['qty']?>" data-id="<?= $i?>" style="padding-left: 5px; padding-right: 5px" <?= ($this->session->userdata("level") == "Super Admin") ? "" : "readonly"?>></td>
                                                     <td class="text-right">
                                                         <input type="hidden" name="harga" value="<?= $detail['harga']?>" id="harga-<?= $i?>">
                                                         <input type="hidden" name="sub_total" value="<?= $detail['sub_total']?>" id="sub-<?= $i?>" value="0">
                                                         <input type="hidden" name="id_artikel" value="<?= $detail['id_artikel']?>">
-                                                        <input type="number" name="diskon" value="<?= $detail['diskon']?>" class="form form-control form-control-md required number" id="diskon-<?= $i?>" data-id="<?= $i?>" style="padding-left: 5px; padding-right: 5px">
+                                                        <input type="number" name="diskon" value="<?= $detail['diskon']?>" class="form form-control form-control-md required number" id="diskon-<?= $i?>" data-id="<?= $i?>" style="padding-left: 5px; padding-right: 5px" <?= ($this->session->userdata("level") == "Super Admin") ? "" : "readonly"?>>
                                                     </td>
                                                 </tr>
                                         <?php 
@@ -58,10 +62,13 @@
                                             endforeach;?>
                                     </tbody>
                                 </table>
-                                <div class="form-floating mt-3">
-                                    <input type="text" name="cari_artikel" class="form-control form-control-sm">
-                                    <label class="col-form-label">Input Artikel</label>
-                                </div>
+
+                                <?php if($this->session->userdata("level") == "Super Admin") :?>
+                                    <div class="form-floating mt-3">
+                                        <input type="text" name="cari_artikel" class="form-control form-control-sm">
+                                        <label class="col-form-label">Input Artikel</label>
+                                    </div>
+                                <?php endif;?>
 
                                 <?php $artikel = list_artikel();?>
                                 <ul class="list-group mb-3" id="listOfArtikel" style="display:none">
@@ -86,7 +93,7 @@
                             <label class="col-form-label">Total</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <input type="text" name="cash" class="form form-control form-control-sm rupiah" value="<?= rupiah($penjualan['cash'])?>">
+                            <input type="text" name="cash" class="form form-control form-control-sm rupiah" value="<?= rupiah($penjualan['cash'])?>" style="background-color: white" <?= ($this->session->userdata("level") == "Super Admin") ? "" : "readonly"?>>
                             <label class="col-form-label">Cash</label>
                         </div>
                         <div class="form-floating mb-3">
@@ -94,20 +101,22 @@
                             <label class="col-form-label">Kembali</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <input type="date" name="tgl_penjualan" class="form form-control form-control-sm required" value="<?= $penjualan['tgl_penjualan']?>">
+                            <input type="datetime-local" name="tgl_penjualan" class="form form-control form-control-sm required" style="background-color: white" value="<?= date("Y-m-d\TH:i", strtotime($penjualan['tgl_penjualan']));?>" <?= ($this->session->userdata("level") == "Super Admin") ? "" : "readonly"?>>
                             <label class="col-form-label">Tgl. Penjualan</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <textarea name="keterangan" class="form form-control form-control-sm required" data-bs-toggle="autosize"><?= $penjualan['keterangan']?></textarea>
+                            <textarea name="keterangan" class="form form-control form-control-sm required" data-bs-toggle="autosize" style="background-color: white" <?= ($this->session->userdata("level") == "Super Admin") ? "" : "readonly"?>><?= $penjualan['keterangan']?></textarea>
                             <label class="col-form-label">Keterangan</label>
                         </div>
-
-                        <div class="d-grid gap-2 mb-3">
-                            <a href="javascript:void(0)" class="btn btn-md btn-primary" id="btnEdit">
-                                <?= tablerIcon("device-floppy", "me-1")?>
-                                Simpan Perubahan
-                            </a>
-                        </div>
+                        
+                        <?php if($this->session->userdata("level") == "Super Admin") :?>
+                            <div class="d-grid gap-2 mb-3">
+                                <a href="javascript:void(0)" class="btn btn-md btn-primary" id="btnEdit">
+                                    <?= tablerIcon("device-floppy", "me-1")?>
+                                    Simpan Perubahan
+                                </a>
+                            </div>
+                        <?php endif;?>
                     </form>
                     
                 </div>

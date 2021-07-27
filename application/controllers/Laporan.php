@@ -4,17 +4,16 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Laporan extends MY_Controller {
-
-    public function stok(){
-        $this->laporan->stok();
-    }
-
-    public function penyetokan(){
-        $this->laporan->penyetokan();
-    }
-
     public function downloadLaporan(){
-        $this->laporan->downloadLaporan();
+        $level = $this->session->userdata('level');
+        
+        if ($level == "Super Admin") {
+            $this->laporan->downloadLaporan();
+        } else if($level == "Kasir") {
+            redirect(base_url("penjualan"));
+        } else if($level == "Gudang") {
+            redirect(base_url("penyetokan"));
+        }
     }
 
 }

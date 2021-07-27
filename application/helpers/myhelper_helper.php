@@ -71,6 +71,38 @@
         }
     }
 
+    function tgl_waktu($tgl, $day = ""){
+        
+        $tgl = date("Y-m-d-H-i", strtotime($tgl));
+        $data = explode("-", $tgl);
+        $hari = $data[2];
+        $bulan = $data[1];
+        $tahun = $data[0];
+        $jam = $data[3];
+        $menit = $data[4];
+
+        if($bulan == "01") $bulan = "Januari";
+        if($bulan == "02") $bulan = "Februari";
+        if($bulan == "03") $bulan = "Maret";
+        if($bulan == "04") $bulan = "April";
+        if($bulan == "05") $bulan = "Mei";
+        if($bulan == "06") $bulan = "Juni";
+        if($bulan == "07") $bulan = "Juli";
+        if($bulan == "08") $bulan = "Agustus";
+        if($bulan == "09") $bulan = "September";
+        if($bulan == "10") $bulan = "Oktober";
+        if($bulan == "11") $bulan = "November";
+        if($bulan == "12") $bulan = "Desember";
+
+        if($day == TRUE){
+            $hari_indo = hari_indo(date("D", strtotime($tgl)));
+
+            return $hari_indo . ", " . $hari . " " . $bulan . " " . $tahun . " " . $jam . ":" . $menit;
+        } else {
+            return $hari . " " . $bulan . " " . $tahun . " " . $jam . ":" . $menit;
+        }
+    }
+
     function stok_artikel($id_artikel){
         $CI =& get_instance();
 

@@ -1,11 +1,3 @@
-var pathArray = window.location.pathname.split("/").pop()
-
-if(pathArray == "arsip"){
-    var url = url_base+"penjualan/load_penjualan/arsip";
-} else {
-    var url = url_base+"penjualan/load_penjualan";
-}
-
 var datatable = $('#dataTable').DataTable({ 
     initComplete: function() {
         var api = this.api();
@@ -20,22 +12,18 @@ var datatable = $('#dataTable').DataTable({
     },
     processing: true,
     serverSide: true,
-    ajax: {"url": url, "type": "POST"},
+    ajax: {"url": url_base+"user/load_user", "type": "POST"},
     columns: [
-        {"data": "tgl_penjualan", render : function(row, data, iDisplayIndex){
-            return iDisplayIndex.tgl
+        {"data": "hapus", render : function(row, data, iDisplayIndex){
+            if(iDisplayIndex.hapus == 0) return "Aktif"
+            else return "Nonaktif"
         }},
-        {"data": "keterangan"},
-        {"data": "stok", render : function(row, data, iDisplayIndex){
-            if(jQuery.browser.mobile == true) return iDisplayIndex.stok
-            else return "<center>"+iDisplayIndex.stok+"</center>"
-        }},
-        {"data": "total", render : function(data){
-            return formatRupiah(data, "Rp.");
-        }, className : "text-nowrap"},
+        {"data": "nama"},
+        {"data": "username"},
+        {"data": "level"},
         {"data": "menu"},
     ],
-    order: [[0, 'desc']],
+    order: [[1, 'asc']],
     rowCallback: function(row, data, iDisplayIndex) {
         var info = this.fnPagingInfo();
         var page = info.iPage;

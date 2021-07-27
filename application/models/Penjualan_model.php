@@ -82,7 +82,7 @@ class Penjualan_model extends MY_Model {
         if($status == "arsip") $this->datatables->where("hapus", "1");
         else $this->datatables->where("hapus", "0");
 
-        $this->datatables->add_column("tgl", "$1", "tgl_indo(tgl_penjualan, TRUE)");
+        $this->datatables->add_column("tgl", "$1", "tgl_waktu(tgl_penjualan, TRUE)");
         $this->datatables->add_column("stok", "$1", "item_penjualan(id_penjualan)");
 
         if($status == "arsip"){
