@@ -9,14 +9,6 @@
             <form class="card card-md" action="<?= base_url()?>auth/login" method="post" autocomplete="off">
                 <div class="card-body">
                 <h2 class="card-title text-center mb-4">Login to your account</h2>
-                
-                <center>
-                    <?php 
-                        $date = getdate(time());
-                        echo $date['hours'] . " : " . $date['minutes'];
-                    ?><br>
-                </center><br>
-
                 <?php if( $this->session->flashdata('pesan') ) : ?>
                     <div class="col-12">
                         <?=$this->session->flashdata('pesan')?>

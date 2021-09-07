@@ -33,6 +33,9 @@ class Penjualan_model extends MY_Model {
         $data['cash'] = $cash;
         $data['kembali'] = $kembali;
 
+        date_default_timezone_set('Asia/Makassar');
+        $data['tgl_penjualan'] = date("Y-m-d H:i:s");
+
         $id_penjualan = $this->add_data("penjualan", $data);
 
         foreach ($id_artikel as $i => $id_artikel) {
@@ -76,6 +79,8 @@ class Penjualan_model extends MY_Model {
     }
 
     public function load_penjualan($status){
+        $level = $this->session->userdata("level");
+
         $this->datatables->select('id_penjualan, tgl_penjualan, keterangan, total');
         $this->datatables->from('penjualan');
 
@@ -104,23 +109,39 @@ class Penjualan_model extends MY_Model {
                         </div>
                         </span>', 'id_penjualan, md5(id_penjualan)');
         } else {
-            $this->datatables->add_column('menu','
-                        <span class="dropdown">
-                        <button class="btn dropdown-toggle align-text-top" data-bs-boundary="viewport" data-bs-toggle="dropdown">
-                            '.tablerIcon("menu-2", "me-1").'
-                            Menu
-                        </button>
-                        <div class="dropdown-menu dropdown-menu-end">
-                            <a class="dropdown-item" target="_blank" href="'.base_url().'penjualan/detail/$2" data-id="$1">
-                                '.tablerIcon("info-circle", "me-1").'
-                                Detail Penjualan
-                            </a>
-                            <a class="dropdown-item arsipPenjualan" href="javascript:void(0)" data-id="$1">
-                                '.tablerIcon("archive", "me-1").'
-                                Arsipkan
-                            </a>
-                        </div>
-                        </span>', 'id_penjualan, md5(id_penjualan)');
+            if($level == "Super Admin"){
+                $this->datatables->add_column('menu','
+                            <span class="dropdown">
+                            <button class="btn dropdown-toggle align-text-top" data-bs-boundary="viewport" data-bs-toggle="dropdown">
+                                '.tablerIcon("menu-2", "me-1").'
+                                Menu
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-end">
+                                <a class="dropdown-item" target="_blank" href="'.base_url().'penjualan/detail/$2" data-id="$1">
+                                    '.tablerIcon("info-circle", "me-1").'
+                                    Detail Penjualan
+                                </a>
+                                <a class="dropdown-item arsipPenjualan" href="javascript:void(0)" data-id="$1">
+                                    '.tablerIcon("archive", "me-1").'
+                                    Arsipkan
+                                </a>
+                            </div>
+                            </span>', 'id_penjualan, md5(id_penjualan)');
+            } else {
+                $this->datatables->add_column('menu','
+                            <span class="dropdown">
+                            <button class="btn dropdown-toggle align-text-top" data-bs-boundary="viewport" data-bs-toggle="dropdown">
+                                '.tablerIcon("menu-2", "me-1").'
+                                Menu
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-end">
+                                <a class="dropdown-item" target="_blank" href="'.base_url().'penjualan/detail/$2" data-id="$1">
+                                    '.tablerIcon("info-circle", "me-1").'
+                                    Detail Penjualan
+                                </a>
+                            </div>
+                            </span>', 'id_penjualan, md5(id_penjualan)');
+            }
         }
 
         return $this->datatables->generate();

@@ -6,6 +6,8 @@ class Laporan_model extends MY_Model {
     public function downloadLaporan(){
         $laporan = $this->input->post("laporan");
 
+        date_default_timezone_set('Asia/Makassar');
+
         if($laporan == "Stok Artikel"){
             $mpdf = new \Mpdf\Mpdf(['mode' => 'utf-8', 'format' => 'A4-P', 'margin_top' => '15', 'margin_left' => '25', 'margin_right' => '25', 'margin_bottom' => '30']);
 

@@ -18,6 +18,9 @@ class Penyetokan_model extends MY_Model {
 
         $data['id_admin'] = $this->session->userdata('id_admin');
 
+        date_default_timezone_set('Asia/Makassar');
+        $data['tgl_penyetokan'] = date("Y-m-d H:i:s");
+
         $id_penyetokan = $this->add_data("penyetokan", $data);
 
         foreach ($id_artikel as $i => $id_artikel) {
