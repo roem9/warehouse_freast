@@ -79,6 +79,7 @@ class Penjualan_model extends MY_Model {
     }
 
     public function load_penjualan($status){
+        $id_admin = $this->session->userdata('id_admin');
         $level = $this->session->userdata("level");
 
         $this->datatables->select('id_penjualan, tgl_penjualan, keterangan, total');
@@ -86,6 +87,12 @@ class Penjualan_model extends MY_Model {
 
         if($status == "arsip") $this->datatables->where("hapus", "1");
         else $this->datatables->where("hapus", "0");
+
+        if($level <> "Super Admin"){
+            $date = date("Y-m-d");
+            $this->datatables->where("id_admin", $id_admin);
+            $this->datatables->where("tgl_penjualan >= ", $date);
+        }
 
         $this->datatables->add_column("tgl", "$1", "tgl_waktu(tgl_penjualan, TRUE)");
         $this->datatables->add_column("stok", "$1", "item_penjualan(id_penjualan)");

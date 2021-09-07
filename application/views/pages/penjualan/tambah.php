@@ -64,11 +64,19 @@
                         </div>
                         <div class="form-floating mb-3">
                             <input type="text" name="cash" class="form form-control form-control-sm rupiah">
-                            <label class="col-form-label">Cash</label>
+                            <label class="col-form-label">Uang</label>
                         </div>
                         <div class="form-floating mb-3">
                             <input type="text" name="kembali" class="form form-control form-control-sm rupiah" style="background-color: white" readonly>
-                            <label class="col-form-label">Kembali</label>
+                            <label class="col-form-label">Kembalian</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <select name="tipe_pembayaran" class="form form-control form-control-sm required">
+                                <option value="">Pilih Tipe Pembayaran</option>
+                                <option value="Tunai">Tunai</option>
+                                <option value="Transfer">Transfer</option>
+                            </select>
+                            <label for="">Tipe Pembayaran</label>
                         </div>
                         <!-- <div class="form-floating mb-3">
                             <input type="datetime-local" name="tgl_penjualan" class="form form-control form-control-sm required">

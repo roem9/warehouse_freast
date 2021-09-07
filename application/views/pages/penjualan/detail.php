@@ -94,11 +94,19 @@
                         </div>
                         <div class="form-floating mb-3">
                             <input type="text" name="cash" class="form form-control form-control-sm rupiah" value="<?= rupiah($penjualan['cash'])?>" style="background-color: white" <?= ($this->session->userdata("level") == "Super Admin") ? "" : "readonly"?>>
-                            <label class="col-form-label">Cash</label>
+                            <label class="col-form-label">Uang</label>
                         </div>
                         <div class="form-floating mb-3">
                             <input type="text" name="kembali" class="form form-control form-control-sm rupiah" style="background-color: white" readonly value="<?= rupiah($penjualan['kembali'])?>">
-                            <label class="col-form-label">Kembali</label>
+                            <label class="col-form-label">Kembalian</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <select name="tipe_pembayaran" class="form form-control form-control-sm required">
+                                <option <?= ($penjualan['tipe_pembayaran'] == "") ? 'selected' : '';?> value="">Pilih Tipe Pembayaran</option>
+                                <option <?= ($penjualan['tipe_pembayaran'] == "Tunai") ? 'selected' : '';?> value="Tunai">Tunai</option>
+                                <option <?= ($penjualan['tipe_pembayaran'] == "Transfer") ? 'selected' : '';?> value="Transfer">Transfer</option>
+                            </select>
+                            <label for="">Tipe Pembayaran</label>
                         </div>
                         <div class="form-floating mb-3">
                             <input type="datetime-local" name="tgl_penjualan" class="form form-control form-control-sm required" style="background-color: white" value="<?= date("Y-m-d\TH:i", strtotime($penjualan['tgl_penjualan']));?>" <?= ($this->session->userdata("level") == "Super Admin") ? "" : "readonly"?>>

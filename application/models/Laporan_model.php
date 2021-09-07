@@ -123,7 +123,7 @@ class Laporan_model extends MY_Model {
                 <table border="1" style="border-collapse:collapse">
                     <thead>
                         <tr height="20">
-                            <th colspan="10" style="padding: 10px; border: 0mm solid black;"><center>Laporan Penjualan ' . tgl_indo($tgl_awal) . " s.d " . tgl_indo($tgl_akhir) . '</center></th>
+                            <th colspan="10" style="padding: 10px; border: 0mm solid black;"><center>Laporan Penjualan Tunai ' . tgl_indo($tgl_awal) . " s.d " . tgl_indo($tgl_akhir) . '</center></th>
                         </tr>
                         <tr>
                             <th style="padding: 5px;">No</th>
@@ -141,7 +141,7 @@ class Laporan_model extends MY_Model {
                     </thead>
                     <tbody>');
 
-            $penjualan = $this->get_all("penjualan", "tgl_penjualan BETWEEN '$tgl_awal' AND '$tgl_akhir'", "tgl_penjualan");
+            $penjualan = $this->get_all("penjualan", ["tgl_penjualan BETWEEN '$tgl_awal' AND '$tgl_akhir'", "tipe_pembayaran" => "Tunai"], "tgl_penjualan");
             
             $i = 1;
             $total = 0;
@@ -190,6 +190,81 @@ class Laporan_model extends MY_Model {
                     </tbody>
                 </table>
             ");
+            
+            $mpdf->AddPage();
+
+            $mpdf->WriteHTML('
+                <table border="1" style="border-collapse:collapse">
+                    <thead>
+                        <tr height="20">
+                            <th colspan="10" style="padding: 10px; border: 0mm solid black;"><center>Laporan Penjualan Transfer ' . tgl_indo($tgl_awal) . " s.d " . tgl_indo($tgl_akhir) . '</center></th>
+                        </tr>
+                        <tr>
+                            <th style="padding: 5px;">No</th>
+                            <th style="padding: 5px;">Tgl</th>
+                            <th style="padding: 5px;">User</th>
+                            <th style="padding: 5px;">Keterangan</th>
+                            <th style="padding: 5px;">Nama Artikel</th>
+                            <th style="padding: 5px;">Ukuran</th>
+                            <th style="padding: 5px;">QTY</th>
+                            <th style="padding: 5px;">Harga</th>
+                            <th style="padding: 5px;">Diskon</th>
+                            <th style="padding: 5px;">Sub Total</th>
+                            <th style="padding: 5px;">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>');
+
+            $penjualan = $this->get_all("penjualan", ["tgl_penjualan BETWEEN '$tgl_awal' AND '$tgl_akhir'", "tipe_pembayaran" => "Transfer"], "tgl_penjualan");
+            
+            $i = 1;
+            $total = 0;
+            foreach ($penjualan as $penjualan) {
+                $admin = $this->get_one("admin", ["id_admin" => $penjualan['id_admin']]);
+                $artikel = $this->get_all("detail_penjualan", ["id_penjualan" => $penjualan['id_penjualan']]);
+                $row = COUNT($artikel);
+
+                foreach ($artikel as $z => $artikel) {
+                    if($z == 0){
+                        $mpdf->WriteHTML("
+                            <tr>
+                                <td style='padding: 5px' rowspan={$row}><center>{$i}</center></td>
+                                <td style='padding: 5px' rowspan={$row}>".tgl_waktu($penjualan['tgl_penjualan'])."</td>
+                                <td style='padding: 5px' rowspan={$row}>{$admin['nama']}</td>
+                                <td style='padding: 5px' rowspan={$row}>{$penjualan['keterangan']}</td>
+                                <td style='padding: 5px'>{$artikel['nama_artikel']}</td>
+                                <td style='padding: 5px'><center>{$artikel['ukuran']}</center></td>
+                                <td style='padding: 5px'><center>{$artikel['qty']}</center></td>
+                                <td style='padding: 5px'>" . rupiah($artikel['harga']) . "</td>
+                                <td style='padding: 5px'><center>{$artikel['diskon']}%</center></td>
+                                <td style='padding: 5px'>" . rupiah($artikel['sub_total']) ."</td>
+                                <td style='padding: 5px' rowspan={$row}>".rupiah($penjualan['total'])."</td>
+                            </tr>");
+                    } else {
+                        $mpdf->WriteHTML("
+                            <tr>
+                                <td style='padding: 5px'>{$artikel['nama_artikel']}</td>
+                                <td style='padding: 5px'><center>{$artikel['ukuran']}</center></td>
+                                <td style='padding: 5px'><center>{$artikel['qty']}</center></td>
+                                <td style='padding: 5px'>" . rupiah($artikel['harga']) . "</td>
+                                <td style='padding: 5px'><center>{$artikel['diskon']}%</center></td>
+                                <td style='padding: 5px'>" . rupiah($artikel['sub_total']) ."</td>
+                            </tr>");
+                    }
+
+                    $total += $artikel['sub_total'];
+                }
+                $i++;
+            }
+            $mpdf->WriteHTML("
+                        <tr>
+                            <td style='padding: 5px' colspan='10'><b><center>Total</center></b></td>
+                            <td style='padding: 5px'>" . rupiah($total) ."</td>
+                        </tr>
+                    </tbody>
+                </table>
+            ");
+
             $mpdf->Output("Laporan Penjualan " . tgl_indo($tgl_awal) . " s.d " . tgl_indo($tgl_akhir) . time().".pdf", "I");
         } else if($laporan == "Penjualan Artikel"){
             $tgl_awal = $this->input->post("tgl_awal");
@@ -208,7 +283,8 @@ class Laporan_model extends MY_Model {
                         </tr>
                         <tr>
                             <th style="padding: 5px; width: 5%">No</th>
-                            <th style="padding: 5px; width: 65%">Nama Artikel</th>
+                            <th style="padding: 5px; width: 20%">Produk</th>
+                            <th style="padding: 5px; width: 50%">Nama Artikel</th>
                             <th style="padding: 5px; width: 20%">Ukuran</th>
                             <th style="padding: 5px; width: 10%">Penjualan</th>
                         </tr>
@@ -225,9 +301,11 @@ class Laporan_model extends MY_Model {
             
             $i = 1;
             foreach ($artikel as $artikel) {
+                $produk = $this->get_one("artikel", ["id_artikel" => $artikel['id_artikel']]);
                 $mpdf->WriteHTML("
                     <tr>
                         <td style='padding: 5px'><center>{$i}</center></td>
+                        <td style='padding: 5px'>{$produk['produk']}</td>
                         <td style='padding: 5px'>{$artikel['nama_artikel']}</td>
                         <td style='padding: 5px'><center>{$artikel['ukuran']}</center></td>
                         <td style='padding: 5px'><center>{$artikel['qty']}</center></td>

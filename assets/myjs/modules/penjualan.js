@@ -110,7 +110,6 @@ $("[name='cash']").keyup(function(){
     let total = $("[name='total']").val();
     let kembali = parseInt(cash) - parseInt(total);
 
-    console.log(kembali)
     $("[name='kembali']").val(formatRupiah(kembali.toString(), "Rp."));
     if(kembali < 0){
         $("[name='kembali']").addClass("bg-red-lt")
@@ -206,30 +205,47 @@ $("#formPenjualan #btnSimpan").click(function(){
                     text: 'lengkapi isi form terlebih dahulu'
                 })
             } else {
-                let result = ajax(url_base+"penjualan/add_penjualan", "POST", formData);
+                total = $("[name='total']").val();
+                cash = $("[name='cash']").val();
+                cash = cash.replace("Rp.", "");
+                cash = cash.replace(".", "");
 
-                if(result == 1){
-                    urut = 0;
-                    $("#btnSimpan").hide();
-                
-                    $(form).trigger('reset');
-                    $(".listOfArtikel").html("");
-                    listOfArtikel();
+                let kembali = parseInt(cash) - parseInt(total);
 
-                    Swal.fire({
-                        position: 'center',
-                        icon: 'success',
-                        text: 'Berhasil menambahkan data penjualan',
-                        showConfirmButton: false,
-                        timer: 1500
-                    })
-                } else {
+                if(kembali < 0){
                     Swal.fire({
                         icon: 'error',
                         title: 'Oops...',
-                        text: 'terjadi kesalahan, silahkan mulai ulang halaman'
+                        text: 'transaksi gagal, uang pelanggan kurang'
                     })
+                } else {
+
+                    let result = ajax(url_base+"penjualan/add_penjualan", "POST", formData);
+    
+                    if(result == 1){
+                        urut = 0;
+                        $("#btnSimpan").hide();
+                    
+                        $(form).trigger('reset');
+                        $(".listOfArtikel").html("");
+                        listOfArtikel();
+    
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            text: 'Berhasil menambahkan data penjualan',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'terjadi kesalahan, silahkan mulai ulang halaman'
+                        })
+                    }
                 }
+
             }
         }
     })
