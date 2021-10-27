@@ -1,4 +1,3 @@
-// let urut = 0;
 $("[name='cari_artikel']").on('keyup', function(){
     var value = $(this).val().toLowerCase();
     if(value == "") $("#listOfArtikel").hide();
@@ -122,6 +121,7 @@ $(document).on("click", ".hapusArtikel", function(){
     let form = "#formPenjualan";
     let id = $(this).data("id");
     let nama = $(this).data("nama");
+    // console.log(id, nama);
 
     Swal.fire({
         icon: 'question',
@@ -133,6 +133,7 @@ $(document).on("click", ".hapusArtikel", function(){
     }).then(function (result) {
         if (result.value) {
             urut--;
+            index--;
             $("#"+id).remove();
             let no = 1;
             $.each($(".container-xl .urut"), function(){
