@@ -93,11 +93,13 @@
                             <label class="col-form-label">Total</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <input type="text" name="cash" class="form form-control form-control-sm rupiah" value="<?= rupiah($penjualan['cash'])?>" style="background-color: white" <?= ($this->session->userdata("level") == "Super Admin") ? "" : "readonly"?>>
+                            <input type="hidden" name="cash" class="form required" value="<?= $penjualan['cash']?>">
+                            <input type="text" name="cash_belanja" class="form-control form-control-sm rupiah required" value="<?= rupiah($penjualan['cash'])?>" style="background-color: white" <?= ($this->session->userdata("level") == "Super Admin") ? "" : "readonly"?>>
                             <label class="col-form-label">Uang</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <input type="text" name="kembali" class="form form-control form-control-sm rupiah" style="background-color: white" readonly value="<?= rupiah($penjualan['kembali'])?>">
+                            <input type="hidden" name="kembali" class="form required" value="<?= $penjualan['kembali']?>">
+                            <input type="text" name="kembali_belanja" class="form-control form-control-sm rupiah required" style="background-color: white" readonly value="<?= rupiah($penjualan['kembali'])?>">
                             <label class="col-form-label">Kembalian</label>
                         </div>
                         <div class="form-floating mb-3">

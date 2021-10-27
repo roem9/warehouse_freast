@@ -58,16 +58,18 @@
                         </div>
 
                         <div class="form-floating mb-3">
-                            <input type="hidden" name="total" class="form">
+                            <input type="hidden" name="total" class="form required">
                             <input type="text" name="total_belanja" class="form-control form-control-sm required" style="background-color: white" readonly>
                             <label class="col-form-label">Total</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <input type="text" name="cash" class="form form-control form-control-sm rupiah">
+                            <input type="hidden" name="cash" class="form required">
+                            <input type="text" name="cash_belanja" class="form-control form-control-sm rupiah required">
                             <label class="col-form-label">Uang</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <input type="text" name="kembali" class="form form-control form-control-sm rupiah" style="background-color: white" readonly>
+                            <input type="hidden" name="kembali" class="form required">
+                            <input type="text" name="kembali_belanja" class="form-control form-control-sm rupiah required" style="background-color: white" readonly>
                             <label class="col-form-label">Kembalian</label>
                         </div>
                         <div class="form-floating mb-3">

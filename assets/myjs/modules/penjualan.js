@@ -30,9 +30,9 @@ $(document).on("click", ".artikel", function(){
             </td>
             <td class="text-right"><input type="number" name="qty" id="qty-`+index+`" class="form form-control form-control-md required number" data-id="`+index+`" style="padding-left: 5px; padding-right: 5px"></td>
             <td class="text-right">
-                <input type="hidden" name="harga" value="`+result.harga+`" id="harga-`+index+`">
-                <input type="hidden" name="sub_total" id="sub-`+index+`" value="0">
-                <input type="hidden" name="id_artikel" value="`+result.id_artikel+`">
+                <input type="text" name="harga" value="`+result.harga+`" id="harga-`+index+`">
+                <input type="text" name="sub_total" id="sub-`+index+`" value="0">
+                <input type="text" name="id_artikel" value="`+result.id_artikel+`">
                 <input type="number" name="diskon" value="`+result.diskon+`" class="form form-control form-control-md required number" id="diskon-`+index+`" data-id="`+index+`" style="padding-left: 5px; padding-right: 5px">
             </td>
         </tr>
@@ -70,6 +70,8 @@ $(document).on("keyup change", "input[name='qty']", function(){
 
     $("[name='cash']").val("");
     $("[name='kembali']").val("");
+    $("[name='cash_belanja']").val("");
+    $("[name='kembali_belanja']").val("");
 })
 
 $(document).on("keyup change", "input[name='diskon']", function(){
@@ -99,21 +101,27 @@ $(document).on("keyup change", "input[name='diskon']", function(){
 
     $("[name='cash']").val("");
     $("[name='kembali']").val("");
+    $("[name='cash_belanja']").val("");
+    $("[name='kembali_belanja']").val("");
 })
 
-$("[name='cash']").keyup(function(){
+$("[name='cash_belanja']").keyup(function(){
     let cash = $(this).val();
     cash = cash.replace("Rp.", "");
     cash = cash.replace(".", "");
 
+    $("[name='cash']").val(cash);
+
     let total = $("[name='total']").val();
     let kembali = parseInt(cash) - parseInt(total);
 
-    $("[name='kembali']").val(formatRupiah(kembali.toString(), "Rp."));
+    $("[name='kembali']").val(kembali);
+    $("[name='kembali_belanja']").val(formatRupiah(kembali.toString(), "Rp."));
+
     if(kembali < 0){
-        $("[name='kembali']").addClass("bg-red-lt")
+        $("[name='kembali_belanja']").addClass("bg-red-lt")
     } else {
-        $("[name='kembali']").removeClass("bg-red-lt")
+        $("[name='kembali_belanja']").removeClass("bg-red-lt")
     }
 })
 
@@ -151,6 +159,8 @@ $(document).on("click", ".hapusArtikel", function(){
 
             $("[name='cash']").val("");
             $("[name='kembali']").val("");
+            $("[name='cash_belanja']").val("");
+            $("[name='kembali_belanja']").val("");
 
             if(urut == 0){
                 $("#btnSimpan").hide();
@@ -208,11 +218,18 @@ $("#formPenjualan #btnSimpan").click(function(){
             } else {
                 total = $("[name='total']").val();
                 cash = $("[name='cash']").val();
+                
+                console.log(cash)
                 cash = cash.replace("Rp.", "");
+                console.log(cash)
                 cash = cash.replace(".", "");
+                console.log(cash)
 
                 let kembali = parseInt(cash) - parseInt(total);
 
+                console.log(total)
+                console.log(kembali)
+                
                 if(kembali < 0){
                     Swal.fire({
                         icon: 'error',
