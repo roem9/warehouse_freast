@@ -30,9 +30,9 @@ $(document).on("click", ".artikel", function(){
             </td>
             <td class="text-right"><input type="number" name="qty" id="qty-`+index+`" class="form form-control form-control-md required number" data-id="`+index+`" style="padding-left: 5px; padding-right: 5px"></td>
             <td class="text-right">
-                <input type="text" name="harga" value="`+result.harga+`" id="harga-`+index+`">
-                <input type="text" name="sub_total" id="sub-`+index+`" value="0">
-                <input type="text" name="id_artikel" value="`+result.id_artikel+`">
+                <input type="hidden" name="harga" value="`+result.harga+`" id="harga-`+index+`">
+                <input type="hidden" name="sub_total" id="sub-`+index+`" value="0">
+                <input type="hidden" name="id_artikel" value="`+result.id_artikel+`">
                 <input type="number" name="diskon" value="`+result.diskon+`" class="form form-control form-control-md required number" id="diskon-`+index+`" data-id="`+index+`" style="padding-left: 5px; padding-right: 5px">
             </td>
         </tr>
