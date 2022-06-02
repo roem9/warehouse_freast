@@ -1,3 +1,8 @@
+$(".btnAdd").click(function(){
+    $(".ukuranAlphabet").hide();
+    $(".ukuranAngka").hide();
+})
+
 $("#addArtikel .btnTambah").click(function(){
     Swal.fire({
         icon: 'question',
@@ -340,4 +345,28 @@ $(document).on("click", ".arsipProduk", function(){
             }
         }
     })
+})
+
+$("[name='tipe_ukuran'").click(function(){
+    let data = $(this).val();
+
+    if(data == "Tanpa Ukuran" || data == ""){
+        $(".ukuranAlphabet").hide();
+        $(".ukuranAngka").hide();
+
+        $("[name='nomor_terkecil']").removeClass("required")
+        $("[name='nomor_terbesar']").removeClass("required")
+    } else if(data == "Ukuran Alphabet"){
+        $(".ukuranAlphabet").show();
+        $(".ukuranAngka").hide();
+        
+        $("[name='nomor_terkecil']").removeClass("required")
+        $("[name='nomor_terbesar']").removeClass("required")
+    } else if(data == "Ukuran Angka"){
+        $(".ukuranAlphabet").hide();
+        $(".ukuranAngka").show();
+        
+        $("[name='nomor_terkecil']").addClass("required")
+        $("[name='nomor_terbesar']").addClass("required")
+    }
 })

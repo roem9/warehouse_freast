@@ -6,6 +6,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Artikel_model extends MY_Model {
 
     public function add_artikel(){
+        $tipe_ukuran = $this->input->post("tipe_ukuran");
+        unset($_POST['tipe_ukuran']);
+        
+        $nomor_terkecil = $this->input->post("nomor_terkecil");
+        $nomor_terbesar = $this->input->post("nomor_terbesar");
+        unset($_POST['nomor_terkecil']);
+        unset($_POST['nomor_terbesar']);
+
         // simpan ukuran dalam array
         $ukuran = [];
         if(isset($_POST['ukuran'])){
@@ -14,20 +22,42 @@ class Artikel_model extends MY_Model {
         }
 
         $_POST['harga'] = rupiah_to_int($_POST['harga']);
-        $data = [];
-        foreach ($_POST as $key => $value) {
-            $data[$key] = $this->input->post($key);
-        }
         
-        // jika array ukuran tidak kosong lakukan input sebanyak jumlah ukuran
-        if($ukuran){
-            foreach ($ukuran as $ukuran) {
-                $data['ukuran'] = $ukuran;
+        // jika tipe ukuran = tanpa ukuran
+        if($tipe_ukuran == "Tanpa Ukuran"){
+            $data = [];
+            foreach ($_POST as $key => $value) {
+                $data[$key] = $this->input->post($key);
+            }
+
+            $query = $this->add_data("artikel", $data);
+        } else if($tipe_ukuran == "Ukuran Alphabet"){
+            $data = [];
+            foreach ($_POST as $key => $value) {
+                $data[$key] = $this->input->post($key);
+            }
+
+            if($ukuran){
+                foreach ($ukuran as $ukuran) {
+                    $data['ukuran'] = $ukuran;
+                    $query = $this->add_data("artikel", $data);
+                }
+            } else {
                 $query = $this->add_data("artikel", $data);
             }
-        } else {
-            $query = $this->add_data("artikel", $data);
+        } else if($tipe_ukuran == "Ukuran Angka"){
+            $data = [];
+            foreach ($_POST as $key => $value) {
+                $data[$key] = $this->input->post($key);
+            }
+            
+
+            for ($i=$nomor_terkecil; $i <= $nomor_terbesar; $i++) { 
+                $data['ukuran'] = $i;
+                $query = $this->add_data("artikel", $data);
+            }
         }
+
 
         if($query) return 1;
         else return 0;
