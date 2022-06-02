@@ -3,7 +3,7 @@
     <div class="page page-center">
         <div class="container-tight py-4">
             <div class="text-center mb-4">
-                <a href="javascript:void(0)"><img src="<?= base_url()?>assets/img/logo.jpeg" height="90" alt=""></a>
+                <a href="javascript:void(0)"><img src="<?= base_url()?>assets/img/logo.png" height="90" alt=""></a>
                 <!-- <a href="javascript:void(0)"><img src="<?= base_url()?>assets/static/logo.png" height="90" alt=""></a> -->
             </div>
             <form class="card card-md" action="<?= base_url()?>auth/login" method="post" autocomplete="off">
