@@ -120,3 +120,11 @@ clipboard.on('success', function(e) {
 function npwp(no_npwp){
     return no_npwp.substr(0, 2)+"."+no_npwp.substr(2, 3)+"."+no_npwp.substr(5, 3)+"."+no_npwp.substr(8, 1)+"-"+no_npwp.substr(9, 3)+"."+no_npwp.substr(12, 3);
 }
+
+function rupiah(nominal){
+    const format = nominal.toString().split('').reverse().join('');
+    const convert = format.match(/\d{1,3}/g);
+    const rupiah = 'Rp ' + convert.join('.').split('').reverse().join('')
+
+    return rupiah;
+}

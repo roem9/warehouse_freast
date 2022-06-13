@@ -1,7 +1,7 @@
 <?php
     function tablerIcon($icon, $margin = ""){
         return '
-            <svg width="24" height="24" class="alert-icon '.$margin.'">
+            <svg width="24" height="24" class="'.$margin.'">
                 <use xlink:href="'.base_url().'assets/tabler-icons-1.39.1/tabler-sprite.svg#tabler-'.$icon.'" />
             </svg>';
     }
@@ -118,8 +118,19 @@
         $CI->db->where(["hapus" => 0]);
         $penjualan = $CI->db->get()->row_array();
 
+        $CI->db->select("SUM(qty) as stok");
+        $CI->db->from("detail_konsinyasi");
+        $CI->db->where(["id_artikel" => $id_artikel]);
+        $CI->db->where(["hapus" => 0]);
+        $konsinyasi = $CI->db->get()->row_array();
 
-        return $penyetokan['stok'] - $penjualan['stok'];
+        $CI->db->select("SUM(qty) as stok");
+        $CI->db->from("detail_retur");
+        $CI->db->where(["id_artikel" => $id_artikel]);
+        $CI->db->where(["hapus" => 0]);
+        $retur = $CI->db->get()->row_array();
+
+        return $penyetokan['stok'] - $penjualan['stok'] - $konsinyasi['stok'] + $retur['stok'];
     }
 
     function produk(){
@@ -171,4 +182,49 @@
 
         if($stok) return $stok['stok'];
         else return 0;
+    }
+
+    function assetStore($id_store){
+        $CI =& get_instance();
+
+        $CI->db->from("konsinyasi");
+        $CI->db->where(["hapus" => 0, "id_store" => $id_store]);
+        $konsinyasi = $CI->db->get()->result_array();
+
+        $assetKonsinyasi = 0;
+        foreach ($konsinyasi as $i => $konsinyasi) {
+            $CI->db->from("detail_konsinyasi");
+            $CI->db->where(["id_konsinyasi" => $konsinyasi['id_konsinyasi']]);
+            $detail_konsinyasi = $CI->db->get()->result_array();
+
+            foreach ($detail_konsinyasi as $detail) {
+                $detail_konsinyasi = ($detail['qty'] * ($detail['harga'] - ($detail['harga'] * $detail['diskon'] / 100)));
+            }
+
+            $assetKonsinyasi += $detail_konsinyasi;
+        }
+
+        $CI->db->from("retur");
+        $CI->db->where(["hapus" => 0, "id_store" => $id_store]);
+        $retur = $CI->db->get()->result_array();
+
+        $assetRetur = 0;
+        foreach ($retur as $i => $retur) {
+            $CI->db->from("detail_retur");
+            $CI->db->where(["id_retur" => $retur['id_retur']]);
+            $detail_retur = $CI->db->get()->result_array();
+
+            foreach ($detail_retur as $detail) {
+                $detail_retur = ($detail['qty'] * ($detail['harga'] - ($detail['harga'] * $detail['diskon'] / 100)));
+            }
+
+            $assetRetur += $detail_retur;
+        }
+
+        $CI->db->select("SUM(nominal) as nominal");
+        $CI->db->from("pencairan_store");
+        $CI->db->where(["id_store" => $id_store]);
+        $pencairan = $CI->db->get()->row_array();
+
+        return $assetKonsinyasi - $assetRetur - $pencairan['nominal'];
     }
