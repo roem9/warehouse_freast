@@ -103,6 +103,10 @@
                             <label class="col-form-label">Kembalian</label>
                         </div>
                         <div class="form-floating mb-3">
+                            <input type="text" name="biaya_admin" class="form form-control form-control-sm rupiah required" value="<?= rupiah($penjualan['biaya_admin'])?>">
+                            <label class="col-form-label">Biaya Admin</label>
+                        </div>
+                        <div class="form-floating mb-3">
                             <select name="tipe_pembayaran" class="form form-control form-control-sm required">
                                 <option <?= ($penjualan['tipe_pembayaran'] == "") ? 'selected' : '';?> value="">Pilih Tipe Pembayaran</option>
                                 <option <?= ($penjualan['tipe_pembayaran'] == "Tunai") ? 'selected' : '';?> value="Tunai">Tunai</option>

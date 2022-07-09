@@ -73,6 +73,10 @@
                             <label class="col-form-label">Kembalian</label>
                         </div>
                         <div class="form-floating mb-3">
+                            <input type="text" name="biaya_admin" class="form form-control form-control-sm rupiah required">
+                            <label class="col-form-label">Biaya Admin</label>
+                        </div>
+                        <div class="form-floating mb-3">
                             <select name="tipe_pembayaran" class="form form-control form-control-sm required">
                                 <option value="">Pilih Tipe Pembayaran</option>
                                 <option value="Tunai">Tunai</option>

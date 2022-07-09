@@ -15,6 +15,7 @@ class Penjualan_model extends MY_Model {
 
         $cash = rupiah_to_int($_POST['cash']);
         $kembali = rupiah_to_int($_POST['kembali']);
+        $biaya_admin = rupiah_to_int($_POST['biaya_admin']);
 
         unset($_POST['id_artikel']);
         unset($_POST['qty']);
@@ -22,6 +23,7 @@ class Penjualan_model extends MY_Model {
         unset($_POST['sub_total']);
         unset($_POST['cash']);
         unset($_POST['kembali']);
+        unset($_POST['biaya_admin']);
 
 
         $data = [];
@@ -32,6 +34,7 @@ class Penjualan_model extends MY_Model {
         $data['id_admin'] = $this->session->userdata('id_admin');
         $data['cash'] = $cash;
         $data['kembali'] = $kembali;
+        $data['biaya_admin'] = $biaya_admin;
 
         date_default_timezone_set('Asia/Makassar');
         $data['tgl_penjualan'] = date("Y-m-d H:i:s");
@@ -163,6 +166,7 @@ class Penjualan_model extends MY_Model {
 
         $cash = rupiah_to_int($_POST['cash']);
         $kembali = rupiah_to_int($_POST['kembali']);
+        $biaya_admin = rupiah_to_int($_POST['biaya_admin']);
 
         unset($_POST['id_artikel']);
         unset($_POST['qty']);
@@ -170,6 +174,7 @@ class Penjualan_model extends MY_Model {
         unset($_POST['sub_total']);
         unset($_POST['cash']);
         unset($_POST['kembali']);
+        unset($_POST['biaya_admin']);
 
         $data = [];
         foreach ($_POST as $key => $value) {
@@ -178,6 +183,7 @@ class Penjualan_model extends MY_Model {
         
         $data['cash'] = $cash;
         $data['kembali'] = $kembali;
+        $data['biaya_admin'] = $biaya_admin;
 
         $this->edit_data("penjualan", ["id_penjualan" => $id_penjualan], $data);
 

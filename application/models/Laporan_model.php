@@ -75,7 +75,11 @@ class Laporan_model extends MY_Model {
                     </thead>
                     <tbody>');
 
-            $penyetokan = $this->get_all("penyetokan", "tgl_penyetokan BETWEEN '$tgl_awal' AND '$tgl_akhir'", "tgl_penyetokan");
+            $penyetokan = $this->get_all("penyetokan", "hapus = 0 AND DATE_FORMAT(tgl_penyetokan, '%Y-%m-%d') BETWEEN '$tgl_awal' AND '$tgl_akhir'", "tgl_penyetokan");
+
+            // $this->db->from("penyetokan");
+            // $this->db->where("hapus = 0 AND DATE_FORMAT(tgl_penyetokan, '%Y-%m-%d') BETWEEN '$tgl_awal' AND '$tgl_akhir'");
+            // $penyetokan = $this->db->get()->result_array();
             
             $i = 1;
             foreach ($penyetokan as $penyetokan) {
@@ -136,12 +140,13 @@ class Laporan_model extends MY_Model {
                             <th style="padding: 5px;">Harga</th>
                             <th style="padding: 5px;">Diskon</th>
                             <th style="padding: 5px;">Sub Total</th>
+                            <th style="padding: 5px;">Biaya Admin</th>
                             <th style="padding: 5px;">Total</th>
                         </tr>
                     </thead>
                     <tbody>');
 
-            $penjualan = $this->get_all("penjualan", ["tgl_penjualan BETWEEN '$tgl_awal' AND '$tgl_akhir'", "tipe_pembayaran" => "Tunai"], "tgl_penjualan");
+            $penjualan = $this->get_all("penjualan", "hapus = 0 AND (DATE_FORMAT(tgl_penjualan, '%Y-%m-%d') BETWEEN '$tgl_awal' AND '$tgl_akhir') AND tipe_pembayaran = 'Tunai'", "tgl_penjualan");
             
             $i = 1;
             $total = 0;
@@ -164,7 +169,8 @@ class Laporan_model extends MY_Model {
                                 <td style='padding: 5px'>" . rupiah($artikel['harga']) . "</td>
                                 <td style='padding: 5px'><center>{$artikel['diskon']}%</center></td>
                                 <td style='padding: 5px'>" . rupiah($artikel['sub_total']) ."</td>
-                                <td style='padding: 5px' rowspan={$row}>".rupiah($penjualan['total'])."</td>
+                                <td style='padding: 5px' rowspan={$row}>" . rupiah($penjualan['biaya_admin']) ."</td>
+                                <td style='padding: 5px' rowspan={$row}>".rupiah($penjualan['total'] - $penjualan['biaya_admin'])."</td>
                             </tr>");
                     } else {
                         $mpdf->WriteHTML("
@@ -178,13 +184,13 @@ class Laporan_model extends MY_Model {
                             </tr>");
                     }
 
-                    $total += $artikel['sub_total'];
+                    $total += $artikel['sub_total'] - $penjualan['biaya_admin'];
                 }
                 $i++;
             }
             $mpdf->WriteHTML("
                         <tr>
-                            <td style='padding: 5px' colspan='10'><b><center>Total</center></b></td>
+                            <td style='padding: 5px' colspan='11'><b><center>Total</center></b></td>
                             <td style='padding: 5px'>" . rupiah($total) ."</td>
                         </tr>
                     </tbody>
@@ -210,12 +216,13 @@ class Laporan_model extends MY_Model {
                             <th style="padding: 5px;">Harga</th>
                             <th style="padding: 5px;">Diskon</th>
                             <th style="padding: 5px;">Sub Total</th>
+                            <th style="padding: 5px;">Biaya Admin</th>
                             <th style="padding: 5px;">Total</th>
                         </tr>
                     </thead>
                     <tbody>');
 
-            $penjualan = $this->get_all("penjualan", ["tgl_penjualan BETWEEN '$tgl_awal' AND '$tgl_akhir'", "tipe_pembayaran" => "Transfer"], "tgl_penjualan");
+            $penjualan = $this->get_all("penjualan", "hapus = 0 AND (DATE_FORMAT(tgl_penjualan, '%Y-%m-%d') BETWEEN '$tgl_awal' AND '$tgl_akhir') AND tipe_pembayaran = 'Transfer'", "tgl_penjualan");
             
             $i = 1;
             $total = 0;
@@ -238,7 +245,8 @@ class Laporan_model extends MY_Model {
                                 <td style='padding: 5px'>" . rupiah($artikel['harga']) . "</td>
                                 <td style='padding: 5px'><center>{$artikel['diskon']}%</center></td>
                                 <td style='padding: 5px'>" . rupiah($artikel['sub_total']) ."</td>
-                                <td style='padding: 5px' rowspan={$row}>".rupiah($penjualan['total'])."</td>
+                                <td style='padding: 5px' rowspan={$row}>" . rupiah($penjualan['biaya_admin']) ."</td>
+                                <td style='padding: 5px' rowspan={$row}>".rupiah($penjualan['total'] - $penjualan['biaya_admin'])."</td>
                             </tr>");
                     } else {
                         $mpdf->WriteHTML("
@@ -258,7 +266,7 @@ class Laporan_model extends MY_Model {
             }
             $mpdf->WriteHTML("
                         <tr>
-                            <td style='padding: 5px' colspan='10'><b><center>Total</center></b></td>
+                            <td style='padding: 5px' colspan='11'><b><center>Total</center></b></td>
                             <td style='padding: 5px'>" . rupiah($total) ."</td>
                         </tr>
                     </tbody>
@@ -294,7 +302,7 @@ class Laporan_model extends MY_Model {
             $this->db->select("id_artikel, nama_artikel, ukuran, SUM(qty) as qty");
             $this->db->from("detail_penjualan as a");
             $this->db->join("penjualan as b", "a.id_penjualan = b.id_penjualan");
-            $this->db->where("b.tgl_penjualan BETWEEN '$tgl_awal' AND '$tgl_akhir'");
+            $this->db->where("DATE_FORMAT(b.tgl_penjualan, '%Y-%m-%d') BETWEEN '$tgl_awal' AND '$tgl_akhir'");
             $this->db->group_by("id_artikel");
             $this->db->order_by("qty", "DESC");
             $artikel = $this->db->get()->result_array();

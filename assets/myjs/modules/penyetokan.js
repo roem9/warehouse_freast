@@ -32,8 +32,8 @@ $(document).on("click", ".artikel", function(){
 
     $("#btnSimpan").show();
 
-    // $("[name='cari_artikel']").val("");
-    // $("#listOfArtikel").hide();
+    $("[name='cari_artikel']").val("");
+    $("#listOfArtikel").hide();
 })
 
 $(document).on("click", ".hapusArtikel", function(){
