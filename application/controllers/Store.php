@@ -74,7 +74,7 @@ class Store extends MY_Controller {
                 $item = $this->store->get_all("detail_konsinyasi", ["id_konsinyasi" => $konsinyasi['id_konsinyasi']]);
                 foreach ($item as $item) {
                     $data['konsinyasi'][$i]['item'] += $item['qty'];
-                    $data['konsinyasi'][$i]['total'] += ($item['qty'] * ($item['harga'] - ($item['harga'] * $item['diskon'] / 100)));
+                    $data['konsinyasi'][$i]['total'] += $item['qty'] * (($item['harga'] - ($item['harga'] * ($item['disc_sale'] / 100))) - (($item['harga'] - ($item['harga'] * ($item['disc_sale'] / 100))) * ($item['diskon'] / 100)));
                 }
             }
 
@@ -89,7 +89,7 @@ class Store extends MY_Controller {
                 $item = $this->store->get_all("detail_retur", ["id_retur" => $retur['id_retur']]);
                 foreach ($item as $item) {
                     $data['retur'][$i]['item'] += $item['qty'];
-                    $data['retur'][$i]['total'] += ($item['qty'] * ($item['harga'] - ($item['harga'] * $item['diskon'] / 100)));
+                    $data['retur'][$i]['total'] += $item['qty'] * (($item['harga'] - ($item['harga'] * ($item['disc_sale'] / 100))) - (($item['harga'] - ($item['harga'] * ($item['disc_sale'] / 100))) * ($item['diskon'] / 100)));
                 }
             }
 

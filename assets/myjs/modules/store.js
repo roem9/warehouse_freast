@@ -178,6 +178,7 @@ $(document).on("click", ".artikel", function(){
             <td><a href="javascript:void(0)" class="hapusArtikel text-danger" data-form="#formKonsinyasi" data-id="`+id_urut+`" data-nama="`+result.nama_artikel+` `+result.ukuran+`">`+result.nama_artikel+` `+result.ukuran+`</a></td>
             <td class="text-right"><input type="number" name="qty" class="form form-control form-control-md required"></td>
             <td class="text-right"><input type="number" name="diskon" class="form form-control form-control-md required"></td>
+            <td class="text-right"><input type="number" name="disc_sale" class="form form-control form-control-md required"></td>
         </tr>
     `)
 
@@ -202,6 +203,7 @@ $(document).on("click", ".artikelDetail", function(){
             <td><a href="javascript:void(0)" class="hapusArtikel text-danger" data-form="#formDetailKonsinyasi" data-id="`+id_urut+`" data-nama="`+result.nama_artikel+` `+result.ukuran+`">`+result.nama_artikel+` `+result.ukuran+`</a></td>
             <td class="text-right"><input type="number" name="qty" class="form form-control form-control-md required"></td>
             <td class="text-right"><input type="number" name="diskon" class="form form-control form-control-md required"></td>
+            <td class="text-right"><input type="number" name="disc_sale" class="form form-control form-control-md required"></td>
         </tr>
     `)
 
@@ -272,9 +274,15 @@ $("#addKonsinyasi #btnSimpan").click(function(){
                 diskon.push($(this).val());
             });
 
+            disc_sale = new Array();
+            $.each($(form+" [name='disc_sale']"), function(){
+                disc_sale.push($(this).val());
+            });
+
             formData = Object.assign(formData, {id_artikel:id_artikel});
             formData = Object.assign(formData, {qty:qty});
             formData = Object.assign(formData, {diskon:diskon});
+            formData = Object.assign(formData, {disc_sale:disc_sale});
 
             let eror = required(form);
 
@@ -356,6 +364,9 @@ $(document).on("click", ".btnDetailKonsinyasi", function(){
             <td class="text-right">
                 <input type="number" name="diskon" class="form form-control form-control-md required" value="`+detail.diskon+`">
             </td>
+            <td class="text-right">
+                <input type="number" name="disc_sale" class="form form-control form-control-md required" value="`+detail.disc_sale+`">
+            </td>
         </tr>
         `
     })
@@ -396,9 +407,15 @@ $("#detailKonsinyasi #btnEdit").click(function(){
                 diskon.push($(this).val());
             });
 
+            disc_sale = new Array();
+            $.each($("input[name='disc_sale']"), function(){
+                disc_sale.push($(this).val());
+            });
+
             formData = Object.assign(formData, {id_artikel:id_artikel});
             formData = Object.assign(formData, {qty:qty});
             formData = Object.assign(formData, {diskon:diskon});
+            formData = Object.assign(formData, {disc_sale:disc_sale});
 
             let eror = required(form);
 
@@ -505,6 +522,9 @@ $(document).on("click", ".btnReturKonsinyasi", function(){
             <td class="text-right">
                 <input type="number" name="diskon" class="form form-control form-control-md required" value="`+detail.diskon+`">
             </td>
+            <td class="text-right">
+                <input type="number" name="disc_sale" class="form form-control form-control-md required" value="`+detail.disc_sale+`">
+            </td>
         </tr>
         `
     })
@@ -529,6 +549,7 @@ $(document).on("click", ".artikelRetur", function(){
             <td><a href="javascript:void(0)" class="hapusArtikel text-danger" data-form="#formRetur" data-id="`+id_urut+`" data-nama="`+result.nama_artikel+` `+result.ukuran+`">`+result.nama_artikel+` `+result.ukuran+`</a></td>
             <td class="text-right"><input type="number" name="qty" class="form form-control form-control-md required"></td>
             <td class="text-right"><input type="number" name="diskon" class="form form-control form-control-md required"></td>
+            <td class="text-right"><input type="number" name="disc_sale" class="form form-control form-control-md required"></td>
         </tr>
     `)
 
@@ -553,6 +574,7 @@ $(document).on("click", ".artikelReturDetail", function(){
             <td><a href="javascript:void(0)" class="hapusArtikel text-danger" data-form="#formDetailRetur" data-id="`+id_urut+`" data-nama="`+result.nama_artikel+` `+result.ukuran+`">`+result.nama_artikel+` `+result.ukuran+`</a></td>
             <td class="text-right"><input type="number" name="qty" class="form form-control form-control-md required"></td>
             <td class="text-right"><input type="number" name="diskon" class="form form-control form-control-md required"></td>
+            <td class="text-right"><input type="number" name="disc_sale" class="form form-control form-control-md required"></td>
         </tr>
     `)
 
@@ -593,9 +615,15 @@ $("#addRetur #btnSimpan").click(function(){
                 diskon.push($(this).val());
             });
 
+            disc_sale = new Array();
+            $.each($(form+" [name='disc_sale']"), function(){
+                disc_sale.push($(this).val());
+            });
+
             formData = Object.assign(formData, {id_artikel:id_artikel});
             formData = Object.assign(formData, {qty:qty});
             formData = Object.assign(formData, {diskon:diskon});
+            formData = Object.assign(formData, {disc_sale:disc_sale});
 
             let eror = required(form);
 
@@ -691,6 +719,9 @@ $(document).on("click", ".btnDetailRetur", function(){
             <td class="text-right">
                 <input type="number" name="diskon" class="form form-control form-control-md required" value="`+detail.diskon+`">
             </td>
+            <td class="text-right">
+                <input type="number" name="disc_sale" class="form form-control form-control-md required" value="`+detail.disc_sale+`">
+            </td>
         </tr>
         `
     })
@@ -731,9 +762,15 @@ $("#detailRetur #btnEdit").click(function(){
                 diskon.push($(this).val());
             });
 
+            disc_sale = new Array();
+            $.each($("input[name='disc_sale']"), function(){
+                disc_sale.push($(this).val());
+            });
+
             formData = Object.assign(formData, {id_artikel:id_artikel});
             formData = Object.assign(formData, {qty:qty});
             formData = Object.assign(formData, {diskon:diskon});
+            formData = Object.assign(formData, {disc_sale:disc_sale});
 
             let eror = required(form);
 

@@ -65,10 +65,12 @@ class Store_model extends MY_Model {
         $id_artikel = $this->input->post("id_artikel");
         $qty = $this->input->post("qty");
         $diskon = $this->input->post("diskon");
+        $disc_sale = $this->input->post("disc_sale");
 
         unset($_POST['id_artikel']);
         unset($_POST['qty']);
         unset($_POST['diskon']);
+        unset($_POST['disc_sale']);
 
         $data = [];
         foreach ($_POST as $key => $value) {
@@ -91,7 +93,8 @@ class Store_model extends MY_Model {
                 "ukuran" => $artikel['ukuran'],
                 "qty" => $qty[$i],
                 "harga" => $artikel['harga'],
-                "diskon" => $diskon[$i]
+                "diskon" => $diskon[$i],
+                "disc_sale" => $disc_sale[$i]
             ];
 
             $query = $this->add_data("detail_konsinyasi", $data);
@@ -115,7 +118,7 @@ class Store_model extends MY_Model {
             $item = $this->store->get_all("detail_konsinyasi", ["id_konsinyasi" => $konsinyasi['id_konsinyasi']]);
             foreach ($item as $item) {
                 $data['konsinyasi'][$i]['item'] += $item['qty'];
-                $data['konsinyasi'][$i]['total'] += ($item['qty'] * ($item['harga'] - ($item['harga'] * $item['diskon'] / 100)));
+                $data['konsinyasi'][$i]['total'] += $item['qty'] * (($item['harga'] - ($item['harga'] * ($item['disc_sale'] / 100))) - (($item['harga'] - ($item['harga'] * ($item['disc_sale'] / 100))) * ($item['diskon'] / 100)));
             }
         }
 
@@ -127,11 +130,13 @@ class Store_model extends MY_Model {
         $id_artikel = $this->input->post("id_artikel");
         $qty = $this->input->post("qty");
         $diskon = $this->input->post("diskon");
+        $disc_sale = $this->input->post("disc_sale");
 
         unset($_POST['id_konsinyasi']);
         unset($_POST['id_artikel']);
         unset($_POST['qty']);
         unset($_POST['diskon']);
+        unset($_POST['disc_sale']);
 
         $data = [];
         foreach ($_POST as $key => $value) {
@@ -151,7 +156,8 @@ class Store_model extends MY_Model {
                 "ukuran" => $artikel['ukuran'],
                 "qty" => $qty[$i],
                 "harga" => $artikel['harga'],
-                "diskon" => $diskon[$i]
+                "diskon" => $diskon[$i],
+                "disc_sale" => $disc_sale[$i]
             ];
 
             $query = $this->add_data("detail_konsinyasi", $data);
@@ -175,10 +181,12 @@ class Store_model extends MY_Model {
         $id_artikel = $this->input->post("id_artikel");
         $qty = $this->input->post("qty");
         $diskon = $this->input->post("diskon");
+        $disc_sale = $this->input->post("disc_sale");
 
         unset($_POST['id_artikel']);
         unset($_POST['qty']);
         unset($_POST['diskon']);
+        unset($_POST['disc_sale']);
 
         $data = [];
         foreach ($_POST as $key => $value) {
@@ -201,7 +209,8 @@ class Store_model extends MY_Model {
                 "ukuran" => $artikel['ukuran'],
                 "qty" => $qty[$i],
                 "harga" => $artikel['harga'],
-                "diskon" => $diskon[$i]
+                "diskon" => $diskon[$i],
+                "disc_sale" => $disc_sale[$i]
             ];
 
             $query = $this->add_data("detail_retur", $data);
@@ -225,7 +234,7 @@ class Store_model extends MY_Model {
             $item = $this->store->get_all("detail_retur", ["id_retur" => $retur['id_retur']]);
             foreach ($item as $item) {
                 $data['retur'][$i]['item'] += $item['qty'];
-                $data['retur'][$i]['total'] += ($item['qty'] * ($item['harga'] - ($item['harga'] * $item['diskon'] / 100)));
+                $data['retur'][$i]['total'] += $item['qty'] * (($item['harga'] - ($item['harga'] * ($item['disc_sale'] / 100))) - (($item['harga'] - ($item['harga'] * ($item['disc_sale'] / 100))) * ($item['diskon'] / 100)));
             }
         }
 
@@ -247,11 +256,13 @@ class Store_model extends MY_Model {
         $id_artikel = $this->input->post("id_artikel");
         $qty = $this->input->post("qty");
         $diskon = $this->input->post("diskon");
+        $disc_sale = $this->input->post("disc_sale");
 
         unset($_POST['id_retur']);
         unset($_POST['id_artikel']);
         unset($_POST['qty']);
         unset($_POST['diskon']);
+        unset($_POST['disc_sale']);
 
         $data = [];
         foreach ($_POST as $key => $value) {
@@ -271,7 +282,8 @@ class Store_model extends MY_Model {
                 "ukuran" => $artikel['ukuran'],
                 "qty" => $qty[$i],
                 "harga" => $artikel['harga'],
-                "diskon" => $diskon[$i]
+                "diskon" => $diskon[$i],
+                "disc_sale" => $disc_sale[$i]
             ];
 
             $query = $this->add_data("detail_retur", $data);

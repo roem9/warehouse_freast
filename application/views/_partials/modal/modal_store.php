@@ -80,8 +80,9 @@
                                     <tr>
                                         <th class="w-1">No</th>
                                         <th>Artikel</th>
-                                        <th style="width : 15%">QTY</th>
-                                        <th style="width : 15%">DISC</th>
+                                        <th style="width : 20%">QTY</th>
+                                        <th style="width : 20%">CONS</th>
+                                        <th style="width : 20%">DISC</th>
                                     </tr>
                                 </thead>
                                 <tbody id="listOfArtikel">
@@ -134,8 +135,9 @@
                                     <tr>
                                         <th class="w-1">No</th>
                                         <th>Artikel</th>
-                                        <th style="width : 15%">QTY</th>
-                                        <th style="width : 15%">DISC</th>
+                                        <th style="width : 20%">QTY</th>
+                                        <th style="width : 20%">CONS</th>
+                                        <th style="width : 20%">DISC</th>
                                     </tr>
                                 </thead>
                                 <tbody id="listOfArtikelDetail">
@@ -187,8 +189,9 @@
                                     <tr>
                                         <th class="w-1">No</th>
                                         <th>Artikel</th>
-                                        <th style="width : 15%">QTY</th>
-                                        <th style="width : 15%">DISC</th>
+                                        <th style="width : 20%">QTY</th>
+                                        <th style="width : 20%">CONS</th>
+                                        <th style="width : 20%">DISC</th>
                                     </tr>
                                 </thead>
                                 <tbody id="listOfArtikelRetur">
@@ -241,8 +244,9 @@
                                     <tr>
                                         <th class="w-1">No</th>
                                         <th>Artikel</th>
-                                        <th style="width : 15%">QTY</th>
-                                        <th style="width : 15%">DISC</th>
+                                        <th style="width : 20%">QTY</th>
+                                        <th style="width : 20%">CONS</th>
+                                        <th style="width : 20%">DISC</th>
                                     </tr>
                                 </thead>
                                 <tbody id="listOfArtikelReturDetail">

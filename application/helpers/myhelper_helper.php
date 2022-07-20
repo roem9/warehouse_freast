@@ -192,16 +192,18 @@
         $konsinyasi = $CI->db->get()->result_array();
 
         $assetKonsinyasi = 0;
-        foreach ($konsinyasi as $i => $konsinyasi) {
-            $CI->db->from("detail_konsinyasi");
-            $CI->db->where(["id_konsinyasi" => $konsinyasi['id_konsinyasi']]);
-            $detail_konsinyasi = $CI->db->get()->result_array();
-
-            foreach ($detail_konsinyasi as $detail) {
-                $detail_konsinyasi = ($detail['qty'] * ($detail['harga'] - ($detail['harga'] * $detail['diskon'] / 100)));
+        if($konsinyasi){
+            foreach ($konsinyasi as $i => $konsinyasi) {
+                $CI->db->from("detail_konsinyasi");
+                $CI->db->where(["id_konsinyasi" => $konsinyasi['id_konsinyasi']]);
+                $detail_konsinyasi = $CI->db->get()->result_array();
+    
+                foreach ($detail_konsinyasi as $detail) {
+                    $detail_konsinyasi = $detail['qty'] * (($detail['harga'] - ($detail['harga'] * ($detail['disc_sale'] / 100))) - (($detail['harga'] - ($detail['harga'] * ($detail['disc_sale'] / 100))) * ($detail['diskon'] / 100)));
+                }
+    
+                $assetKonsinyasi += $detail_konsinyasi;
             }
-
-            $assetKonsinyasi += $detail_konsinyasi;
         }
 
         $CI->db->from("retur");
@@ -209,16 +211,18 @@
         $retur = $CI->db->get()->result_array();
 
         $assetRetur = 0;
-        foreach ($retur as $i => $retur) {
-            $CI->db->from("detail_retur");
-            $CI->db->where(["id_retur" => $retur['id_retur']]);
-            $detail_retur = $CI->db->get()->result_array();
-
-            foreach ($detail_retur as $detail) {
-                $detail_retur = ($detail['qty'] * ($detail['harga'] - ($detail['harga'] * $detail['diskon'] / 100)));
+        if($retur){
+            foreach ($retur as $i => $retur) {
+                $CI->db->from("detail_retur");
+                $CI->db->where(["id_retur" => $retur['id_retur']]);
+                $detail_retur = $CI->db->get()->result_array();
+    
+                foreach ($detail_retur as $detail) {
+                    $detail_retur = $detail['qty'] * (($detail['harga'] - ($detail['harga'] * ($detail['disc_sale'] / 100))) - (($detail['harga'] - ($detail['harga'] * ($detail['disc_sale'] / 100))) * ($detail['diskon'] / 100)));
+                }
+    
+                $assetRetur += $detail_retur;
             }
-
-            $assetRetur += $detail_retur;
         }
 
         $CI->db->select("SUM(nominal) as nominal");
