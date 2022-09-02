@@ -40,6 +40,7 @@
                                 <thead>
                                     <tr>
                                         <th class="text-dark desktopmobile-l mobile-p tablet-l tablet-p" style="font-size: 11px">Tgl Penyetokan</th>
+                                        <th class="text-dark desktop" style="font-size: 11px">Asset</th>
                                         <th class="text-dark desktop" style="font-size: 11px">Keterangan</th>
                                         <th class="text-dark desktop w-1" style="font-size: 11px">Item</th>
                                         <th class="text-dark desktop w-1" style="font-size: 11px">Menu</th>

@@ -79,6 +79,7 @@ class Penyetokan_model extends MY_Model {
 
         $this->datatables->add_column("tgl", "$1", "tgl_waktu(tgl_penyetokan, TRUE)");
         $this->datatables->add_column("stok", "$1", "item_penyetokan(id_penyetokan)");
+        $this->datatables->add_column("asset", "$1", "assetPenyetokan(id_penyetokan)");
 
         if($status == "arsip"){
             $this->datatables->add_column('menu','

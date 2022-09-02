@@ -25,6 +25,9 @@ var datatable = $('#dataTable').DataTable({
         {"data": "tgl_penyetokan", render : function(row, data, iDisplayIndex){
             return iDisplayIndex.tgl
         }},
+        {"data": "asset", render : function(data){
+            return formatRupiah(data, "Rp.");
+        }},
         {"data": "keterangan"},
         {"data": "stok", render : function(row, data, iDisplayIndex){
             if(jQuery.browser.mobile == true) return iDisplayIndex.stok
@@ -41,7 +44,7 @@ var datatable = $('#dataTable').DataTable({
     },
     "columnDefs": [
     { "searchable": false, "targets": [""] },  // Disable search on first and last columns
-    { "targets": [3, 2], "orderable": false},
+    { "targets": [3, 4], "orderable": false},
     ],
     "rowReorder": {
         "selector": 'td:nth-child(0)'

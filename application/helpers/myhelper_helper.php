@@ -195,7 +195,7 @@
         if($konsinyasi){
             foreach ($konsinyasi as $i => $konsinyasi) {
                 $CI->db->from("detail_konsinyasi");
-                $CI->db->where(["id_konsinyasi" => $konsinyasi['id_konsinyasi']]);
+                $CI->db->where(["id_konsinyasi" => $konsinyasi['id_konsinyasi'], "qty <>" => 0]);
                 $detail_konsinyasi = $CI->db->get()->result_array();
     
                 foreach ($detail_konsinyasi as $detail) {
@@ -214,7 +214,7 @@
         if($retur){
             foreach ($retur as $i => $retur) {
                 $CI->db->from("detail_retur");
-                $CI->db->where(["id_retur" => $retur['id_retur']]);
+                $CI->db->where(["id_retur" => $retur['id_retur'], "qty <>" => 0]);
                 $detail_retur = $CI->db->get()->result_array();
     
                 foreach ($detail_retur as $detail) {
@@ -231,4 +231,21 @@
         $pencairan = $CI->db->get()->row_array();
 
         return $assetKonsinyasi - $assetRetur - $pencairan['nominal'];
+    }
+
+    function assetPenyetokan($id_penyetokan){
+        $CI =& get_instance();
+
+        $CI->db->from("detail_penyetokan as a");
+        $CI->db->join("artikel as b", "a.id_artikel = b.id_artikel");
+        $CI->db->where(["id_penyetokan" => $id_penyetokan]);
+        $detail = $CI->db->get()->result_array();
+
+        $asset = 0;
+
+        foreach ($detail as $detail) {
+            $asset += ($detail['qty'] * $detail['harga']);
+        }
+
+        return $asset;
     }
